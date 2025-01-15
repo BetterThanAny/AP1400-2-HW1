@@ -1,0 +1,6 @@
+./autotest.sh
+./Dockerfile
+./README.md
+.vscode
+build/
+resources/ 

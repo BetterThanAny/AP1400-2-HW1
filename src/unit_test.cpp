@@ -3,7 +3,7 @@
 #include "gmock/gmock.h"
 #include "hw1.h"
 
-/*
+
 TEST(HW1Test, ZEROS) {
     Matrix matrix{algebra::zeros(5, 6)};
 
@@ -51,7 +51,7 @@ TEST(HW1Test, RANDOM1) {
     algebra::show(matrix);
     std::cout << std::endl;
 }
-
+/*
 TEST(HW1Test, RANDOM2) {
     // Caution: min cannot be greater than max
     EXPECT_THROW(algebra::random(3, 4, 4, 2), std::logic_error);
