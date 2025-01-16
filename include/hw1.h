@@ -5,6 +5,7 @@
 #include <random>
 #include <iomanip>
 #include <iostream> // 只会 include 一次
+#include <stdexcept>
 
 using Matrix = std::vector<std::vector<double>>;
 
@@ -12,9 +13,20 @@ namespace algebra
 {
   Matrix zeros(std::size_t n, std::size_t m); // 元素都为0的 n*m 矩阵
   Matrix ones(std::size_t n, std::size_t m);  // 元素都等于1的 n*m 矩阵
-  Matrix random(std::size_t n, std::size_t m, double min, double max);
   // nxm矩阵，元素都是min和max之间的随机数
-  void show(const Matrix& matrix);
+  Matrix random(std::size_t n, std::size_t m, double min, double max);
+  // 矩阵乘标量
+  Matrix multiply(const Matrix &matrix, double c);
+  // strassen 算法实现矩阵乘法
+  // Matrix multiply(const Matrix &matrix1, const Matrix &matrix2);
+  // 矩阵加常数
+  Matrix sum(const Matrix& matrix, double c);
+  // 矩阵加法
+  Matrix sum(const Matrix& matrix1, const Matrix& matrix2);
+  // 矩阵转置
+  Matrix transpose(const Matrix &matrix);
+
+  void show(const Matrix &matrix);
 }
 
 #endif // AP_HW1_H

@@ -9,7 +9,10 @@ cd build
 
 # 运行 cmake 和 make
 cmake ..
+# 在debug模式下构建时启用调试信息
+# cmake .. -DCMAKE_CXX_FLAGS="-g"
 make && ./main
+#make && gdb ./main 
 
 # 返回上一目录并删除 build 目录
 cd ..
