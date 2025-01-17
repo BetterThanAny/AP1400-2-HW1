@@ -25,6 +25,11 @@ namespace algebra
   Matrix sum(const Matrix& matrix1, const Matrix& matrix2);
   // 矩阵转置
   Matrix transpose(const Matrix &matrix);
+  // 余子式 
+  Matrix minor(const Matrix& matrix, size_t n, size_t m);
+  // 行列式 代数余子式求法：A[i][k] = (-1)^(i+k) * M[i][k]
+  double determinant(const Matrix& matrix);
+
 
   void show(const Matrix &matrix);
 }

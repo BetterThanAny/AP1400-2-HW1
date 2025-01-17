@@ -146,6 +146,62 @@ namespace algebra
 
     return transposed;
   }
+  Matrix minor(const Matrix &matrix, size_t n, size_t m)
+  {
+    if (matrix.empty() || matrix[0].empty())
+      throw std::logic_error("empty matrix");
+    if (n == 0 || m == 0)
+      return matrix;
+    // throw std::logic_error("empty minor");
+    size_t row = matrix.size();    // 行数
+    size_t col = matrix[0].size(); // 列数
+    if (n >= row || m >= col)
+      throw std::out_of_range("out of range");
+
+    Matrix result(row - 1, std::vector<double>(col - 1));
+    for (size_t i = 0; i < row; ++i)
+    {
+      for (size_t j = 0; j < col; ++j)
+      {
+        if (i < n - 1 && j < m - 1) // 左上
+        {
+          result[i][j] = matrix[i][j];
+        }
+        else if (i < n - 1 && j > m - 1) // 右上
+        {
+          result[i][j - 1] = matrix[i][j];
+        }
+        else if (i > n - 1 && j < m - 1) // 左下
+        {
+          result[i - 1][j] = matrix[i][j];
+        }
+        else if (i > n - 1 && j > m - 1) // 右下
+        {
+          result[i - 1][j - 1] = matrix[i][j];
+        }
+        else
+        {
+          continue;
+        }
+      }
+    }
+  }
+  double determinant(const Matrix &matrix)
+  {
+    if (matrix.empty() || matrix[0].empty())
+      throw std::logic_error("empty matrix");
+    size_t n = matrix.size();    // 行数
+    size_t m = matrix[0].size(); // 列数
+    if (n != m)
+      throw std::logic_error("not a square matrix");
+    // 代数余子式求法：A[i][k] = (-1)^(i+k) * M[i][k]
+    for (size_t j = 0; j < m; ++j)
+    {
+      // 递归计算行列式
+      return matrix[n/2][j] * pow(-1, n/2 + j) * determinant(minor(matrix, n/2, j));
+    }
+    return 0.0;
+  }
   void show(const Matrix &matrix)
   {
     // 设置输出格式：每个浮点数显示 3 位小数
