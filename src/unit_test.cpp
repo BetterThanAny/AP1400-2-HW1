@@ -56,7 +56,7 @@ TEST(HW1Test, RANDOM2) {
     // Caution: min cannot be greater than max
     EXPECT_THROW(algebra::random(3, 4, 4, 2), std::logic_error);
 }
-/*
+
 TEST(HW1Test, MULTIPLY1) {
     Matrix matrix{algebra::random(3, 4, -4, 2)};
     Matrix mult{algebra::multiply(matrix, 3.5)};
@@ -109,7 +109,7 @@ TEST(HW1Test, MULTIPLY4) {
     EXPECT_NEAR(matrix[1][0], 23, 0.03);
     EXPECT_NEAR(matrix[2][0], 19.3, 0.03);
 }
-*/
+
 TEST(HW1Test, SUM1) {
     // Caution: sum of an empty matrix
     EXPECT_TRUE(algebra::sum(Matrix{}, 1.5).empty());
@@ -164,7 +164,7 @@ TEST(HW1Test, TRANSPOSE) {
         for (size_t j{}; j < transpose[i].size(); j++)
             EXPECT_DOUBLE_EQ(transpose[i][j], matrix[j][i]);
 }
-/*
+
 TEST(HW1Test, MINOR1) {
     Matrix matrix{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
     Matrix minor = algebra::minor(matrix, 1, 2);
@@ -212,7 +212,7 @@ TEST(HW1Test, DETERMINANT2) {
     Matrix matrix{{1, 1.5, -1.75, 2}, {2, 2.5, -2.75, 3}, {3, 3.5, -3.75, 4}, {4, 4.5, 4.75, 5}};
     EXPECT_DOUBLE_EQ(algebra::determinant(matrix), 0);
 }
-
+/*
 TEST(HW1Test, INVERSE1) {
     // Caution: inverse of an empty matrix
     EXPECT_TRUE(algebra::inverse(Matrix{}).empty());
