@@ -212,7 +212,7 @@ TEST(HW1Test, DETERMINANT2) {
     Matrix matrix{{1, 1.5, -1.75, 2}, {2, 2.5, -2.75, 3}, {3, 3.5, -3.75, 4}, {4, 4.5, 4.75, 5}};
     EXPECT_DOUBLE_EQ(algebra::determinant(matrix), 0);
 }
-/*
+
 TEST(HW1Test, INVERSE1) {
     // Caution: inverse of an empty matrix
     EXPECT_TRUE(algebra::inverse(Matrix{}).empty());
@@ -284,7 +284,7 @@ TEST(HW1Test, CONCATENATE2) {
     EXPECT_DOUBLE_EQ(matrix[0][3], matrix2[0][0]);
     EXPECT_DOUBLE_EQ(matrix[1][3], matrix2[1][0]);
 }
-
+/*
 TEST(HW1Test, ERO_SWAP) {
     // Caution: r1 or r2 inputs are out of range
     EXPECT_THROW(algebra::ero_swap(Matrix{{1, 2}}, 0, 1), std::logic_error);

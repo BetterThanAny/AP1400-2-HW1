@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <iostream> // 只会 include 一次
 #include <stdexcept>
+#include <cmath>
 
 using Matrix = std::vector<std::vector<double>>;
 
@@ -18,7 +19,7 @@ namespace algebra
   // 矩阵乘标量
   Matrix multiply(const Matrix &matrix, double c);
   // strassen 算法实现矩阵乘法
- Matrix multiply(const Matrix &matrix1, const Matrix &matrix2);
+  Matrix multiply(const Matrix &matrix1, const Matrix &matrix2);
   // 矩阵加常数
   Matrix sum(const Matrix &matrix, double c);
   // 矩阵加法
@@ -29,7 +30,11 @@ namespace algebra
   Matrix minor(const Matrix &matrix, size_t n, size_t m);
   // 行列式 代数余子式求法：A[i][k] = (-1)^(i+k) * M[i][k]
   double determinant(const Matrix &matrix);
-
+  // 矩阵的逆
+  Matrix inverse(const Matrix &matrix);
+  // 矩阵的连接
+  Matrix concatenate(const Matrix &matrix1, const Matrix &matrix2, int axis = 0);
+  /***********************************/
   // 矩阵减法
   Matrix sub(const Matrix &matrix1, const Matrix &matrix2);
   // strassen 算法

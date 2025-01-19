@@ -295,10 +295,118 @@ namespace algebra
         for (size_t j = 0; j < m; ++j)
         {
           // 递归计算行列式
-          det += matrix[0][j] * pow(-1, j) * determinant(minor(matrix, 0, j));
+          det += matrix[0][j] * (j % 2 == 0 ? 1 : -1) * determinant(minor(matrix, 0, j));
         }
         return det;
       }
+    }
+  }
+
+  Matrix inverse(const Matrix &matrix)
+  {
+    if (matrix.empty())
+    { // 测试文件要求返回空矩阵？为什么？
+      return matrix;
+      // throw std::logic_error("empty matrix has no inverse.");
+    }
+    else if (!matrix.empty() && matrix[0].empty())
+    {
+      throw std::logic_error("illegal matrix");
+    }
+    size_t rows = matrix.size();
+    size_t vols = matrix[0].size();
+    if (rows != vols)
+    {
+      throw std::logic_error("A non-square matrix cannot be inverted.");
+    }
+    double det_matrix = determinant(matrix);
+    const double epsilon = 1e-9;
+    if (abs(det_matrix) < epsilon) // 与一个误差值进行比较
+    {
+      throw std::logic_error("A matrix with a determinant of 0 cannot be inverted.");
+    }
+
+    Matrix C(rows, std::vector<double>(vols)); // 用来存储代数余子式
+    for (std::size_t i = 0; i < rows; ++i)
+    {
+      for (std::size_t j = 0; j < vols; ++j)
+      {
+        C[i][j] = determinant(minor(matrix, i, j)) * ((i + j) % 2 == 0 ? 1 : -1);
+      }
+    }
+    Matrix adj_matrix = transpose(C);
+    return multiply(adj_matrix, pow(det_matrix, -1));
+  }
+
+  Matrix concatenate(const Matrix &matrix1, const Matrix &matrix2, int axis)
+  {
+    size_t rows1 = matrix1.size();
+    size_t rows2 = matrix2.size();
+    if (axis == 1)
+    {
+      if (rows1 != rows2)
+      {
+        throw std::logic_error("illegal matrix");
+      }
+      else if (rows1 == 0)
+      {
+        return Matrix(rows1, std::vector<double>(rows1));
+      }
+      else
+      {
+        size_t vols1 = matrix1[0].size();
+        size_t vols2 = matrix2[0].size();
+        Matrix result(rows1, std::vector<double>(vols1 + vols2));
+        for (std::size_t i = 0; i < rows1; ++i)
+        {
+          for (std::size_t j = 0; j < vols1; ++j)
+          {
+            result[i][j] = matrix1[i][j];
+          }
+          for (std::size_t j = 0; j < vols2; ++j)
+          {
+            result[i][j + vols1] = matrix2[i][j];
+          }
+        }
+        return result;
+      }
+    }
+    else if (axis == 0)
+    {
+      if (rows1 == 0 && rows2 == 0){
+        return Matrix(0,std::vector<double>(0));
+      }else if(rows1 !=0 && rows2 == 0 ){
+        return matrix1;
+      }else if(rows1 == 0 && rows2 != 0){
+        return matrix2;
+      }else {
+        size_t vols1 = matrix1[0].size();
+        size_t vols2 = matrix2[0].size();
+        if (vols1 != vols2){
+          throw std::logic_error("illegal matrix");
+        }
+        Matrix result(rows1 + rows2, std::vector<double>(vols1));
+        for (std::size_t i = 0; i < rows1; ++i)
+        {
+          for (std::size_t j = 0; j < vols1; ++j)
+          {
+            result[i][j] = matrix1[i][j];
+            result[i+rows1][j] = matrix2[i][j]; 
+          }
+        }
+        for (std::size_t i = 0; i < rows2; ++i)
+        {
+          for (std::size_t j = 0; j < vols1; ++j)
+          {
+            result[i+rows1][j] = matrix2[i][j]; 
+          }
+        }
+        return result;
+      }
+    }
+    else
+    {
+      throw std::logic_error("illegal axis");
     }
   }
 
@@ -441,5 +549,4 @@ namespace algebra
       std::cout << std::endl; // 每行输出完后换行
     }
   }
-
 }
