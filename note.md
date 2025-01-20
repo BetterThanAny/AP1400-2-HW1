@@ -66,3 +66,5 @@ Program received signal SIGSEGV, Segmentation fault.
     at /usr/local/include/c++/13.3.0/bits/stl_vector.h:993
 993           { return size_type(this->_M_impl._M_finish - this->_M_impl._M_start); }
 ```
+
+最后一个上三角矩阵真不想写了
