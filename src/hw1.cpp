@@ -373,16 +373,24 @@ namespace algebra
     }
     else if (axis == 0)
     {
-      if (rows1 == 0 && rows2 == 0){
-        return Matrix(0,std::vector<double>(0));
-      }else if(rows1 !=0 && rows2 == 0 ){
+      if (rows1 == 0 && rows2 == 0)
+      {
+        return Matrix(0, std::vector<double>(0));
+      }
+      else if (rows1 != 0 && rows2 == 0)
+      {
         return matrix1;
-      }else if(rows1 == 0 && rows2 != 0){
+      }
+      else if (rows1 == 0 && rows2 != 0)
+      {
         return matrix2;
-      }else {
+      }
+      else
+      {
         size_t vols1 = matrix1[0].size();
         size_t vols2 = matrix2[0].size();
-        if (vols1 != vols2){
+        if (vols1 != vols2)
+        {
           throw std::logic_error("illegal matrix");
         }
         Matrix result(rows1 + rows2, std::vector<double>(vols1));
@@ -391,14 +399,14 @@ namespace algebra
           for (std::size_t j = 0; j < vols1; ++j)
           {
             result[i][j] = matrix1[i][j];
-            result[i+rows1][j] = matrix2[i][j]; 
+            result[i + rows1][j] = matrix2[i][j];
           }
         }
         for (std::size_t i = 0; i < rows2; ++i)
         {
           for (std::size_t j = 0; j < vols1; ++j)
           {
-            result[i+rows1][j] = matrix2[i][j]; 
+            result[i + rows1][j] = matrix2[i][j];
           }
         }
         return result;
@@ -409,6 +417,123 @@ namespace algebra
       throw std::logic_error("illegal axis");
     }
   }
+
+  Matrix ero_swap(const Matrix &matrix, size_t r1, size_t r2)
+  {
+    size_t rows = matrix.size(); // 矩阵行数
+    if (rows == 0)
+    {
+      // 空矩阵
+      throw std::logic_error("empty can not swap");
+    }
+    size_t vols = matrix[0].size(); // 矩阵列数
+    if (vols == 0)
+    {
+      throw std::logic_error("illegal matrix");
+    }
+    if (r1 >= rows || r2 >= rows)
+    {
+      // 超过行范围了
+      throw std::logic_error("out of ranges");
+    }
+    if (r1 == r2)
+    {
+      return matrix; // 其实这步不用也行，下面的处理没问题
+    }
+    Matrix result(rows, std::vector<double>(vols));
+    for (size_t i = 0; i < rows; ++i)
+      for (size_t j = 0; j < vols; ++j)
+      {
+        if (i == r1)
+        {
+          result[i][j] = matrix[r2][j];
+        }
+        else if (i == r2)
+        {
+          result[i][j] = matrix[r1][j];
+        }
+        else
+        {
+          result[i][j] = matrix[i][j];
+        }
+      }
+    return result;
+  }
+
+  Matrix ero_multiply(const Matrix &matrix, size_t r, double c)
+  {
+    size_t rows = matrix.size(); // 矩阵行数
+    if (rows == 0)
+    {
+      // 空矩阵
+      throw std::logic_error("empty can not swap");
+    }
+    size_t vols = matrix[0].size(); // 矩阵列数
+    if (vols == 0)
+    {
+      throw std::logic_error("illegal matrix");
+    }
+    if (r >= rows)
+    {
+      // 超过行范围了
+      throw std::logic_error("out of ranges");
+    }
+    Matrix result(rows, std::vector<double>(vols));
+    for (size_t i = 0; i < rows; ++i)
+      for (size_t j = 0; j < vols; ++j)
+      {
+        if (i == r)
+        {
+          result[i][j] = c * matrix[r][j];
+        }
+        else
+        {
+          result[i][j] = matrix[i][j];
+        }
+      }
+    return result;
+  }
+
+  Matrix ero_sum(const Matrix &matrix, size_t r1, double c, size_t r2)
+  {
+    size_t rows = matrix.size(); // 矩阵行数
+    if (rows == 0)
+    {
+      // 空矩阵
+      throw std::logic_error("empty can not swap");
+    }
+    size_t vols = matrix[0].size(); // 矩阵列数
+    if (vols == 0)
+    {
+      throw std::logic_error("illegal matrix");
+    }
+    if (r1 >= rows || r2 >= rows)
+    {
+      // 超过行范围了
+      throw std::logic_error("out of ranges");
+    }
+    Matrix result(rows, std::vector<double>(vols));
+    for (size_t i = 0; i < rows; ++i)
+      for (size_t j = 0; j < vols; ++j)
+      {
+        if (i == r2)
+        {
+          result[i][j] = matrix[i][j] + c * matrix[r1][j];
+        }
+        else
+        {
+          result[i][j] = matrix[i][j];
+        }
+      }
+    return result;
+  }
+/*
+  Matrix upper_triangular(const Matrix &matrix)
+  {
+    
+  }
+*/
+
 
   Matrix sub(const Matrix &matrix1, const Matrix &matrix2)
   {
